@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Forever Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(to bottom, #fff0f5, #e0f7fa);
+      overflow-x: hidden;
+    }
+    h1, h2, h3 {
+      font-family: 'Great Vibes', cursive;
+      color: #e91e63;
+    }
+    .section {
+      padding: 50px 20px;
+      text-align: center;
+      transition: all 0.5s ease;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .carousel-item {
+      scroll-snap-align: center;
+      flex: 0 0 80%;
+      background: #ffffffcc;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .carousel-item img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0.5rem;
+      border: 4px solid #ffb6c1;
+    }
+    .quiz {
+      background: #ffe4ec;
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 600px;
+      margin: auto;
+      text-align: left;
+    }
+    .quiz-question {
+      margin: 1.5rem 0;
+    }
+    .quiz-question button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: #f8bbd0;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .quiz-question button:hover {
+      background: #f06292;
+      color: white;
+    }
+    #celebration, #sad-reaction, #cute-reaction, #angry-reaction, #correct-song {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 2rem;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h1>Our Beautiful Journey</h1>
+    <div class="carousel">
+      <div class="carousel-item">
+        <h3>How We Met</h3>
+        <p>On Discord, Feb 23, 2021 — Our story began.</p>
+        <img src="images/photo1.jpg" />
+        <img src="images/photo2.jpg" />
+      </div>
+      <div class="carousel-item">
+        <h3>Late Night Talks</h3>
+        <p>Those endless calls became our favorite place.</p>
+        <img src="images/photo3.jpg" />
+        <img src="images/photo4.jpg" />
+      </div>
+      <div class="carousel-item">
+        <h3>The Realization</h3>
+        <p>It wasn't just friendship. It was love.</p>
+        <img src="images/photo5.jpg" />
+        <img src="images/photo6.jpg" />
+      </div>
+    </div>
+  </div>
+
+  <div class="section quiz">
+    <h2>Let’s See How Well You Know Us</h2>
+
+    <div class="quiz-question">
+      <h3>1. Which song reminds me of you?</h3>
+      <button onclick="playLocalSong('teri')">Teri Yaadon Mein</button>
+      <button onclick="playLocalSong('husna')">Husna</button>
+      <button onclick="playLocalSong('jutti')">Jutti Meri</button>
+      <button onclick="playLocalSong('pehli')">Pehli Nazar Mein</button>
+    </div>
+
+    <div class="quiz-question">
+      <h3>2. What animal reminds me of you?</h3>
+      <button onclick="animalAnswer('panda')">Panda</button>
+      <button onclick="animalAnswer('cat')">Cat</button>
+      <button onclick="animalAnswer('bear')">Bear</button>
+      <button onclick="animalAnswer('lioness')">Lioness</button>
+    </div>
+
+    <div class="quiz-question">
+      <h3>3. I should marry you because…</h3>
+      <button onclick="marryAnswer('beautiful')">You are beautiful</button>
+      <button onclick="marryAnswer('dangerous')">You are dangerous</button>
+      <button onclick="marryAnswer('dumb')">You are dumb</button>
+      <button onclick="marryAnswer('kuchu')">You are kuchu puchu</button>
+    </div>
+
+    <div class="quiz-question">
+      <h3>4. Best time to get married?</h3>
+      <button onclick="marryTime('24')">24</button>
+      <button onclick="marryTime('26')">26</button>
+      <button onclick="marryTime('60')">60</button>
+      <button onclick="marryTime('27')">27</button>
+    </div>
+  </div>
+
+  <div id="celebration">Congratulations!!!</div>
+  <div id="sad-reaction">Aww no... try again.</div>
+  <div id="cute-reaction">Are you really dumb?</div>
+  <div id="angry-reaction">Change your answer to 27! I can't wait till 60!</div>
+  <div id="correct-song">Perfect choice! Playing it for you now...</div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const bgMusic = document.getElementById('bg-music');
+      if (bgMusic) {
+        bgMusic.volume = 0.3;
+      }
+    });
+
+    function showTempMessage(id) {
+      const el = document.getElementById(id);
+      el.style.display = 'flex';
+      setTimeout(() => el.style.display = 'none', 2000);
+    }
+
+    function playSong(link) {
+      window.open(link, '_blank');
+      showTempMessage('correct-song');
+    }
+
+    function playLocalSong(songName) {
+      const songIds = ['teri', 'husna', 'jutti', 'pehli'];
+      songIds.forEach(id => {
+        const s = document.getElementById(`song-${id}`);
+        if (s) { s.pause(); s.currentTime = 0; }
+      });
+      const song = document.getElementById(`song-${songName}`);
+      if (song) {
+        song.play();
+        showTempMessage('correct-song');
+      }
+    }
+
+    function animalAnswer(animal) {
+      if(animal === 'lioness') showTempMessage('celebration');
+      else showTempMessage('sad-reaction');
+    }
+
+    function marryAnswer(ans) {
+      if(ans === 'dumb') showTempMessage('cute-reaction');
+      else showTempMessage('celebration');
+    }
+
+    function marryTime(time) {
+      if(time === '27') showTempMessage('celebration');
+      else if(time === '60') showTempMessage('angry-reaction');
+      else showTempMessage('sad-reaction');
+    }
+  </script>
+
+  <audio id="bg-music" autoplay loop>
+    <source src="assets/audio/piano.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="song-teri"><source src="assets/audio/teri.mp3" type="audio/mpeg"></audio>
+  <audio id="song-husna"><source src="assets/audio/husna.mp3" type="audio/mpeg"></audio>
+  <audio id="song-jutti"><source src="assets/audio/jutti.mp3" type="audio/mpeg"></audio>
+  <audio id="song-pehli"><source src="assets/audio/pehli.mp3" type="audio/mpeg"></audio>
+</body>
+</html>
